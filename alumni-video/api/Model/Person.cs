@@ -19,7 +19,7 @@ namespace api.Model
         public string City{get; set;}
         public string Email{get; set;}
 
-        IPersonDataHandler dataHandler{get; set;}
+        public IPersonDataHandler dataHandler{get; set;}
 
         public Person(){
             dataHandler = new PersonDataHandler();

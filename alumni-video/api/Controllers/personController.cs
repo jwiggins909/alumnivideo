@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using api.Model;
 using api.Data;
+using Microsoft.AspNetCore.Cors;
+
 
 namespace api.Controllers
 {
@@ -21,8 +23,11 @@ namespace api.Controllers
             IPersonDataHandler dataHandler = new PersonDataHandler();
             return dataHandler.Select();
         }
+        
 
         // GET: api/person/5
+        [EnableCors("OtherPolicy")]
+
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
@@ -31,14 +36,17 @@ namespace api.Controllers
 
         // POST: api/person
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Person value)
         {
+            value.dataHandler.Insert(value);
         }
 
         // PUT: api/person/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Person value)
         {
+            System.Console.WriteLine("Get FirstName");
+            value.dataHandler.Update(value);
         }
 
         // DELETE: api/person/5

@@ -42,14 +42,51 @@ namespace api.Data
          }
          public void Update(Person person)
          {
-             throw new System.NotImplementedException();
+             System.Console.WriteLine("Made it to the update" + person.FirstName);
+             var values = GetValues(person);
+             string sql = "UPDATE person SET first_name=@firstName,last_name=@lastName, major=@major, minor=@minor, pledge_class=@pledgeClass, graduation_semester=@graduatingSemester, grad_school=@gradSchool, grad_school_name=@gradSchoolName, employed= @employed, postion= @position, company=@company, city=@city, email=@email ";
+              
+            sql+="WHERE id=@id";
+            db.Open();
+            db.Update(sql, values);
+            db.Close();
          }
          public void Delete(Person person)
          {
              throw new System.NotImplementedException();
          }
          public void Insert(Person person){
-         System.Console.WriteLine("Made it to the insert");
+            System.Console.WriteLine("Made it to the insert");
+
+            var values = GetValues(person);
+            string sql = "INSERT INTO person(first_name,last_name, major, minor, pledge_class, graduation_semester, grad_school, grad_school_name, employed, postion, company, city, email)"; 
+            sql+="VALUES(@firstName, @lastName, @major, @minor, @pledgeClass, @graduatingSemester, @gradSchool, @gradSchoolName, @employed, @position, @company, @city, @email)";
+            db.Open();
+            db.Insert(sql, values);
+            db.Close();
+         }
+
+         public Dictionary<string,object> GetValues(Person person)
+         {
+             var values = new Dictionary<string,object>()
+             {
+                 {"@id",person.ID},
+                 {"@firstName",person.FirstName},
+                 {"@lastName",person.LastName},
+                 {"@major",person.Major},
+                 {"@minor",person.Minor},
+                 {"@pledgeClass",person.PledgeClass},
+                 {"@graduatingSemester",person.GraduatingSemester},
+                 {"@gradSchool",person.GradSchool},
+                 {"@gradSchoolName",person.GradSchoolName},
+                 {"@employed", person.Employed},
+                 {"@position", person.Position},
+                 {"@company", person.Company},
+                 {"@city", person.City},
+                 {"@email", person.Email},
+             };
+
+             return values;
          }
     }
 }
