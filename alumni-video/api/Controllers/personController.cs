@@ -17,6 +17,7 @@ namespace api.Controllers
     public class personController : ControllerBase
     {
         // GET: api/person
+        [EnableCors("OtherPolicy")]
         [HttpGet]
         public List<Person> Get()
         {
